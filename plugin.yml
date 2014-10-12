@@ -1,0 +1,9 @@
+name: Restart on Crash (RoC)
+main: com.github.calenria.roc.Roc
+version: 0.1
+website: https://github.com/Calenria/roc
+author: Calenria
+description: Restarts!
+database: true
+depend: [Vault, WorldEdit]
+             
