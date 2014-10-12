@@ -10,6 +10,6 @@ public class HandlerServerStop extends Thread {
     }
 
     public void run() {
-        Utils.logToFile(plugin, "0");
+        Utils.logToFile(plugin, "0-" + new Long(System.currentTimeMillis() / 1000L).toString());
     }
 }

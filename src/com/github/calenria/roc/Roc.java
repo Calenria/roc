@@ -49,7 +49,6 @@ import com.sk89q.minecraft.util.commands.CommandsManager;
 import com.sk89q.minecraft.util.commands.MissingNestedCommandException;
 import com.sk89q.minecraft.util.commands.SimpleInjector;
 import com.sk89q.minecraft.util.commands.WrappedCommandException;
-import com.sun.jmx.snmp.Timestamp;
 
 /**
  * NextVote ein BukkitPlugin zum verteilen von Vote Belohnungen.
@@ -263,16 +262,14 @@ public class Roc extends JavaPlugin {
         } catch (Exception e){
             e.printStackTrace();
         }
-        
-        
-        Utils.logToFile(plugin,  "1", true);
-        Utils.logToFile(plugin, new Long(new Timestamp().getDateTime()).toString());
+
+        Utils.logToFile(plugin, "1-" + new Long(System.currentTimeMillis() / 1000L).toString(), true);
         
         this.getServer().getScheduler()
         .scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                Utils.logToFile(plugin, new Long(new Timestamp().getDateTime()).toString());
+                Utils.logToFile(plugin, new Long(System.currentTimeMillis() / 1000L).toString());
             }
         }, Utils.TASK_ONE_SECOND * 20, Utils.TASK_ONE_SECOND * 20);
         
