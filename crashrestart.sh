@@ -1,6 +1,6 @@
 #!/bin/bash
-
-SERVER_PATH="/home/test/tppi"
+# */1 * * * * bash /home/tppi/crashrestart.sh >> /home/tppi/roc.log
+SERVER_PATH="/home/tppi"
 LOG_PATH="$SERVER_PATH/plugins/Roc/Roc.log"
 SCRIPT_LOG_PATH="$SERVER_PATH/roc.log"
 PID_PATH="$SERVER_PATH/roc.pid"
@@ -23,7 +23,7 @@ function startServer() {
 	echo "1-"$(date +%s) > $LOG_PATH
 	killall -9 java
     sleep 2
-	screen -dmS mcserver java -Xmx3G -Xms1G -XX:PermSize=512M -XX:+UseCMSCompactAtFullCollection -XX:+UseParNewGC -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+AggressiveOpts -XX:-OmitStackTraceInFastThrow -XX:UseSSE=8 -jar ftbserver.jar nogui
+	screen -dmS mcserver java -Xmx16G -Xms3G -XX:PermSize=512M -XX:+UseCMSCompactAtFullCollection -XX:+UseParNewGC -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+AggressiveOpts -XX:-OmitStackTraceInFastThrow -XX:UseSSE=8 -jar ftbserver.jar nogui
 }
 
 if [ ! -f $PID_PATH ]; then
