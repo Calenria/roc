@@ -269,9 +269,9 @@ public class Roc extends JavaPlugin {
         .scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                Utils.logToFile(plugin, new Long(System.currentTimeMillis() / 1000L).toString());
+                Utils.logToFile(plugin, "2-" + new Long(System.currentTimeMillis() / 1000L).toString());
             }
-        }, Utils.TASK_ONE_SECOND * 20, Utils.TASK_ONE_SECOND * 20);
+        }, 20L, 20L);
         
         
         log.log(Level.INFO, String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
