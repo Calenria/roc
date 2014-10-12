@@ -19,9 +19,11 @@ package com.github.calenria.roc;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -32,6 +34,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Utility Klasse für alles mögliche.
@@ -42,79 +45,79 @@ public final class Utils {
     /**
      * 1 Sekunden.
      */
-    public static final long                       TASK_ONE_SECOND    = 20L;
+    public static final long TASK_ONE_SECOND = 20L;
 
     /**
      * 3 Sekunden.
      */
-    public static final long                       TASK_THREE_SECONDS = 60L;
+    public static final long TASK_THREE_SECONDS = 60L;
 
     /**
      * 1 Minute.
      */
-    public static final long                       TASK_ONE_MINUTE    = 1200L;
+    public static final long TASK_ONE_MINUTE = 1200L;
 
     /**
      * FileBuffer.
      */
-    private static final int                       BUFFER             = 1024;
+    private static final int BUFFER = 1024;
 
     /**
      * HashMap mit allen Minecraft Farben.
      */
-    public static final HashMap<String, ChatColor> COLORMAP           = new HashMap<String, ChatColor>() {
-                                                                          private static final long serialVersionUID = 1L;
-                                                                          {
-                                                                              put("<AQUA>", ChatColor.AQUA);
-                                                                              put("<BLACK>", ChatColor.BLACK);
-                                                                              put("<BLUE>", ChatColor.BLUE);
-                                                                              put("<BOLD>", ChatColor.BOLD);
-                                                                              put("<DARK_AQUA>", ChatColor.DARK_AQUA);
-                                                                              put("<DARK_BLUE>", ChatColor.DARK_BLUE);
-                                                                              put("<DARK_GRAY>", ChatColor.DARK_GRAY);
-                                                                              put("<DARK_GREEN>", ChatColor.DARK_GREEN);
-                                                                              put("<DARK_PURPLE>", ChatColor.DARK_PURPLE);
-                                                                              put("<DARK_RED>", ChatColor.DARK_RED);
-                                                                              put("<GOLD>", ChatColor.GOLD);
-                                                                              put("<GRAY>", ChatColor.GRAY);
-                                                                              put("<GREEN>", ChatColor.GREEN);
-                                                                              put("<ITALIC>", ChatColor.ITALIC);
-                                                                              put("<LIGHT_PURPLE>", ChatColor.LIGHT_PURPLE);
-                                                                              put("<MAGIC>", ChatColor.MAGIC);
-                                                                              put("<RED>", ChatColor.RED);
-                                                                              put("<RESET>", ChatColor.RESET);
-                                                                              put("<STRIKETHROUGH>", ChatColor.STRIKETHROUGH);
-                                                                              put("<UNDERLINE>", ChatColor.UNDERLINE);
-                                                                              put("<WHITE>", ChatColor.WHITE);
-                                                                              put("<YELLOW>", ChatColor.YELLOW);
-                                                                          }
-                                                                      };
+    public static final HashMap<String, ChatColor> COLORMAP = new HashMap<String, ChatColor>() {
+        private static final long serialVersionUID = 1L;
+        {
+            put("<AQUA>", ChatColor.AQUA);
+            put("<BLACK>", ChatColor.BLACK);
+            put("<BLUE>", ChatColor.BLUE);
+            put("<BOLD>", ChatColor.BOLD);
+            put("<DARK_AQUA>", ChatColor.DARK_AQUA);
+            put("<DARK_BLUE>", ChatColor.DARK_BLUE);
+            put("<DARK_GRAY>", ChatColor.DARK_GRAY);
+            put("<DARK_GREEN>", ChatColor.DARK_GREEN);
+            put("<DARK_PURPLE>", ChatColor.DARK_PURPLE);
+            put("<DARK_RED>", ChatColor.DARK_RED);
+            put("<GOLD>", ChatColor.GOLD);
+            put("<GRAY>", ChatColor.GRAY);
+            put("<GREEN>", ChatColor.GREEN);
+            put("<ITALIC>", ChatColor.ITALIC);
+            put("<LIGHT_PURPLE>", ChatColor.LIGHT_PURPLE);
+            put("<MAGIC>", ChatColor.MAGIC);
+            put("<RED>", ChatColor.RED);
+            put("<RESET>", ChatColor.RESET);
+            put("<STRIKETHROUGH>", ChatColor.STRIKETHROUGH);
+            put("<UNDERLINE>", ChatColor.UNDERLINE);
+            put("<WHITE>", ChatColor.WHITE);
+            put("<YELLOW>", ChatColor.YELLOW);
+        }
+    };
 
     /**
      * HashMap mit allen Minecraft Feuerwerks Farben.
      */
-    public static final HashMap<String, Color>     COLORFIREWORKMAP   = new HashMap<String, Color>() {
-                                                                          private static final long serialVersionUID = 1L;
-                                                                          {
-                                                                              put("AQUA", Color.AQUA);
-                                                                              put("BLACK", Color.BLACK);
-                                                                              put("BLUE", Color.BLUE);
-                                                                              put("BLUE", Color.FUCHSIA);
-                                                                              put("GRAY", Color.GRAY);
-                                                                              put("GREEN", Color.GREEN);
-                                                                              put("LIME", Color.LIME);
-                                                                              put("MAROON", Color.MAROON);
-                                                                              put("NAVY", Color.NAVY);
-                                                                              put("OLIVE", Color.OLIVE);
-                                                                              put("ORANGE", Color.ORANGE);
-                                                                              put("PURPLE", Color.PURPLE);
-                                                                              put("RED", Color.RED);
-                                                                              put("SILVER", Color.SILVER);
-                                                                              put("TEAL", Color.TEAL);
-                                                                              put("WHITE", Color.WHITE);
-                                                                              put("YELLOW", Color.YELLOW);
-                                                                          }
-                                                                      };
+    public static final HashMap<String, Color> COLORFIREWORKMAP = new HashMap<String, Color>() {
+        private static final long serialVersionUID = 1L;
+        {
+            put("AQUA", Color.AQUA);
+            put("BLACK", Color.BLACK);
+            put("BLUE", Color.BLUE);
+            put("BLUE", Color.FUCHSIA);
+            put("GRAY", Color.GRAY);
+            put("GREEN", Color.GREEN);
+            put("LIME", Color.LIME);
+            put("MAROON", Color.MAROON);
+            put("NAVY", Color.NAVY);
+            put("OLIVE", Color.OLIVE);
+            put("ORANGE", Color.ORANGE);
+            put("PURPLE", Color.PURPLE);
+            put("RED", Color.RED);
+            put("SILVER", Color.SILVER);
+            put("TEAL", Color.TEAL);
+            put("WHITE", Color.WHITE);
+            put("YELLOW", Color.YELLOW);
+        }
+    };
 
     /**
      * Ersetzt Farben und Platzhalter.
@@ -126,7 +129,8 @@ public final class Utils {
      * @return Ersetzter String
      */
     public static String colorFormat(final String message, final Object... args) {
-        return ChatColor.translateAlternateColorCodes('&', String.format(message, args));
+        return ChatColor.translateAlternateColorCodes('&',
+                String.format(message, args));
     }
 
     /**
@@ -137,9 +141,11 @@ public final class Utils {
      * @param target
      *            Zieldatei
      * @throws IOException
-     *             Falls Zieldatei Existiert oder Fehler beim erstellen der Zieldatei
+     *             Falls Zieldatei Existiert oder Fehler beim erstellen der
+     *             Zieldatei
      */
-    public static void copy(final InputStream input, final File target) throws IOException {
+    public static void copy(final InputStream input, final File target)
+            throws IOException {
         if (target.exists()) {
             throw new IOException("File already exists!");
         }
@@ -170,7 +176,8 @@ public final class Utils {
      *            End Datum
      * @return long Anzahl der Tage
      */
-    public static long daysBetween(final Calendar startDate, final Calendar endDate) {
+    public static long daysBetween(final Calendar startDate,
+            final Calendar endDate) {
         Calendar date = (Calendar) startDate.clone();
         long daysBetween = 0;
         while (date.before(endDate)) {
@@ -189,7 +196,8 @@ public final class Utils {
      *            End Datum
      * @return long Anzahl der Tage
      */
-    public static long daysBetweenMidnight(final Date startDate, final Date endDate) {
+    public static long daysBetweenMidnight(final Date startDate,
+            final Date endDate) {
         Calendar startCal = new GregorianCalendar();
         startCal.setTime(startDate);
         startCal.set(Calendar.HOUR_OF_DAY, 0);
@@ -220,10 +228,12 @@ public final class Utils {
      * @param inputArray
      *            Das eigentliche Array
      * @param glueString
-     *            Das/Die Zeichen die benutz werden um die Arrayeinträge zu verbinden
+     *            Das/Die Zeichen die benutz werden um die Arrayeinträge zu
+     *            verbinden
      * @return String
      */
-    public static String implodeArray(final String[] inputArray, final String glueString) {
+    public static String implodeArray(final String[] inputArray,
+            final String glueString) {
         String output = "";
         if (inputArray.length > 0) {
             StringBuilder sb = new StringBuilder();
@@ -239,7 +249,8 @@ public final class Utils {
     }
 
     /**
-     * Überprüft ob der Spieler jemals auf dem Server gespielt hat und sendet eine Nachricht wenn nicht.
+     * Überprüft ob der Spieler jemals auf dem Server gespielt hat und sendet
+     * eine Nachricht wenn nicht.
      * 
      * @param playerName
      *            Spieler der geprüft wird
@@ -247,10 +258,15 @@ public final class Utils {
      *            Spieler an den die Nachricht ausgegeben wird
      * @return OfflinePlayer
      */
-    public static OfflinePlayer offlinePlayerWithMessage(final String playerName, final String sender) {
+    public static OfflinePlayer offlinePlayerWithMessage(
+            final String playerName, final String sender) {
         OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(playerName);
         if (!oPlayer.hasPlayedBefore()) {
-            Bukkit.getPlayer(sender).sendMessage(ChatColor.translateAlternateColorCodes('&', String.format("&6%s&f nicht gefunden", playerName)));
+            Bukkit.getPlayer(sender)
+                    .sendMessage(
+                            ChatColor.translateAlternateColorCodes('&',
+                                    String.format("&6%s&f nicht gefunden",
+                                            playerName)));
             return null;
         } else {
             return oPlayer;
@@ -268,7 +284,8 @@ public final class Utils {
     public static String replaceColors(final String text) {
         String search = text.trim();
         for (String replKey : COLORMAP.keySet()) {
-            search = search.replaceAll(replKey.toLowerCase(), String.valueOf(COLORMAP.get(replKey).toString()));
+            search = search.replaceAll(replKey.toLowerCase(),
+                    String.valueOf(COLORMAP.get(replKey).toString()));
         }
         return ChatColor.translateAlternateColorCodes('&', search);
     }
@@ -282,7 +299,8 @@ public final class Utils {
      *            Spielername
      * @return String mit ersetzten Farben und Spielernamen
      */
-    public static String replacePlayerName(final String text, final Player player) {
+    public static String replacePlayerName(final String text,
+            final Player player) {
         String search = text.trim();
         search = search.replaceAll("<player>", player.getName());
         search = search.replaceAll("<playerdn>", player.getDisplayName());
@@ -301,13 +319,84 @@ public final class Utils {
      *            Spielername
      * @return String mit ersetzten Farben, Tagen und Spielernamen
      */
-    public static String replacePlayerName(final String text, final Player player, final String days) {
+    public static String replacePlayerName(final String text,
+            final Player player, final String days) {
         String search = text.trim();
         search = search.replaceAll("<days>", days);
         search = replacePlayerName(search, player);
         search = replaceColors(search);
         return search;
     }
+    
+    /**
+     * Erstellt eine plugin Logfile.
+     * 
+     * @param pl
+     *            Plugin Handler
+     * @param message
+     *            Log Eintrag
+     */
+    public static void logToFile(Plugin pl, String message)
+    {
+        try {
+            File dataFolder = pl.getDataFolder();
+            if (!dataFolder.exists()) {
+                dataFolder.mkdir();
+            }
+
+            File saveTo = new File(pl.getDataFolder(), pl.getName() + ".log");
+            if (!saveTo.exists()) {
+                saveTo.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(saveTo, true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(message);
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Löscht / Erstellt eine plugin Logfile.
+     * 
+     * @param pl
+     *            Plugin Handler
+     * @param message
+     *            Log Eintrag
+     */
+    public static void logToFile(Plugin pl, String message, Boolean delete)
+    {
+        try {
+            File dataFolder = pl.getDataFolder();
+            if (!dataFolder.exists()) {
+                dataFolder.mkdir();
+            }
+
+            File saveTo = new File(pl.getDataFolder(), pl.getName() + ".log");
+            
+            if(delete && saveTo.exists()) {
+                saveTo.delete();
+            }
+            
+            if (!saveTo.exists()) {
+                saveTo.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(saveTo, true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(message);
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
 
     /**
      * Keine Initalisierung!

@@ -1,4 +1,4 @@
-name: Restart on Crash (RoC)
+name: Restart on Crash
 main: com.github.calenria.roc.Roc
 version: 0.1
 website: https://github.com/Calenria/roc

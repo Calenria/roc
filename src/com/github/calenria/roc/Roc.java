@@ -41,7 +41,6 @@ import com.github.calenria.roc.commands.CommandHandler;
 import com.github.calenria.roc.listener.RocListener;
 import com.github.calenria.roc.managers.RocManager;
 import com.github.calenria.roc.models.ConfigData;
-
 import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissionsException;
@@ -50,6 +49,7 @@ import com.sk89q.minecraft.util.commands.CommandsManager;
 import com.sk89q.minecraft.util.commands.MissingNestedCommandException;
 import com.sk89q.minecraft.util.commands.SimpleInjector;
 import com.sk89q.minecraft.util.commands.WrappedCommandException;
+import com.sun.jmx.snmp.Timestamp;
 
 /**
  * NextVote ein BukkitPlugin zum verteilen von Vote Belohnungen.
@@ -110,15 +110,6 @@ public class Roc extends JavaPlugin {
      * ResourceBundle der I18N Strings.
      */
     private ResourceBundle messages  = null;
-    /**
-     * ResourceBundle der I18N Item Namen.
-     */
-    private ResourceBundle items     = null;
-
-    /**
-     * Liste der heutigen Votes.
-     */
-    private List<String>   currVotes = new ArrayList<String>();
 
     /**
      * Objekt zum zugriff auf die Konfiguration.
@@ -129,24 +120,8 @@ public class Roc extends JavaPlugin {
      */
     private String         lang      = "de";
 
-    /**
-     * Fügt einen Spielervote zur heutigen liste hinzu.
-     * 
-     * @param vote
-     *            Spielername
-     */
-    public final synchronized void addVote(final String vote) {
-        this.currVotes.add(vote);
-    }
+    private Roc plugin;
 
-    /**
-     * Lister der heutigen Spielervotes.
-     * 
-     * @return the currVotes
-     */
-    public final synchronized List<String> getCurrVotes() {
-        return currVotes;
-    }
 
     /**
      * Teilt Bukkit die verfügbaren Models mit.
@@ -161,15 +136,6 @@ public class Roc extends JavaPlugin {
 //        list.add(VoteHistory.class);
 //        list.add(VoteAggregate.class);
         return list;
-    }
-
-    /**
-     * Gibt ein ResourceBundle mit Itemstrings zurück (items_(lang).properties).
-     * 
-     * @return the items
-     */
-    public final ResourceBundle getItems() {
-        return items;
     }
 
     /**
@@ -191,20 +157,20 @@ public class Roc extends JavaPlugin {
     }
 
     /**
-     * Listener Objekt.
+     * Roc Listener.
      * 
-     * @return Listener
+     * @return rocListener
      */
-    public final RocListener getNextVoteListener() {
+    public final RocListener getNextRocListener() {
         return rocListener;
     }
 
     /**
-     * Vote Manager.
+     * Roc Manager.
      * 
-     * @return the nextVoteManager
+     * @return rocManager
      */
-    public final RocManager getNextVoteManager() {
+    public final RocManager getNextRocManager() {
         return rocManager;
     }
 
@@ -280,6 +246,9 @@ public class Roc extends JavaPlugin {
      */
     @Override
     public final void onEnable() {
+        
+        this.plugin = this;
+        
         setupConfig();
         setupLang();
         setupPermissions();
@@ -287,6 +256,27 @@ public class Roc extends JavaPlugin {
         setupListeners();
         setupdManagers();
         setupCommands();
+        
+        
+        try {
+            Runtime.getRuntime().addShutdownHook(new HandlerServerStop(plugin));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        
+        Utils.logToFile(plugin,  "1", true);
+        Utils.logToFile(plugin, new Long(new Timestamp().getDateTime()).toString());
+        
+        this.getServer().getScheduler()
+        .scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Utils.logToFile(plugin, new Long(new Timestamp().getDateTime()).toString());
+            }
+        }, Utils.TASK_ONE_SECOND * 20, Utils.TASK_ONE_SECOND * 20);
+        
+        
         log.log(Level.INFO, String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
