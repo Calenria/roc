@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -74,12 +75,12 @@ public class Roc extends JavaPlugin {
     /**
      * Listener.
      */
-    private RocListener               rocListener = null;
+    private RocListener rocListener = null;
 
     /**
      * Vote Manager.
      */
-    private RocManager                rocManager  = null;
+    private RocManager rocManager = null;
 
     /**
      * Kommandos.
@@ -89,12 +90,12 @@ public class Roc extends JavaPlugin {
     /**
      * Vault Permissions.
      */
-    private static Permission              permission       = null;
+    private static Permission permission = null;
 
     /**
      * Vault Economy.
      */
-    private static Economy                 economy          = null;
+    private static Economy economy = null;
 
     /**
      * Vault Permissions.
@@ -108,19 +109,18 @@ public class Roc extends JavaPlugin {
     /**
      * ResourceBundle der I18N Strings.
      */
-    private ResourceBundle messages  = null;
+    private ResourceBundle messages = null;
 
     /**
      * Objekt zum zugriff auf die Konfiguration.
      */
-    private ConfigData     config    = null;
+    private ConfigData config = null;
     /**
      * String der gewählten Sprache.
      */
-    private String         lang      = "de";
+    private String lang = "de";
 
     private Roc plugin;
-
 
     /**
      * Teilt Bukkit die verfügbaren Models mit.
@@ -131,9 +131,9 @@ public class Roc extends JavaPlugin {
     @Override
     public final List<Class<?>> getDatabaseClasses() {
         List<Class<?>> list = new ArrayList<Class<?>>();
-//        list.add(VoteData.class);
-//        list.add(VoteHistory.class);
-//        list.add(VoteAggregate.class);
+        // list.add(VoteData.class);
+        // list.add(VoteHistory.class);
+        // list.add(VoteAggregate.class);
         return list;
     }
 
@@ -191,9 +191,11 @@ public class Roc extends JavaPlugin {
     }
 
     /**
-     * Delegiert die registierten Befehle an die jeweiligen Klassen und prüft ob die Benutzung korrekt ist.
+     * Delegiert die registierten Befehle an die jeweiligen Klassen und prüft ob
+     * die Benutzung korrekt ist.
      * 
-     * @see org.bukkit.plugin.java.JavaPlugin#onCommand(org.bukkit.command.CommandSender, org.bukkit.command.Command, java.lang.String, java.lang.String[])
+     * @see org.bukkit.plugin.java.JavaPlugin#onCommand(org.bukkit.command.CommandSender,
+     *      org.bukkit.command.Command, java.lang.String, java.lang.String[])
      * @param sender
      *            Der Absender des Befehls
      * @param cmd
@@ -245,9 +247,9 @@ public class Roc extends JavaPlugin {
      */
     @Override
     public final void onEnable() {
-        
+
         this.plugin = this;
-        
+
         setupConfig();
         setupLang();
         setupPermissions();
@@ -255,25 +257,30 @@ public class Roc extends JavaPlugin {
         setupListeners();
         setupdManagers();
         setupCommands();
-        
-        
+
         try {
             Runtime.getRuntime().addShutdownHook(new HandlerServerStop(plugin));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         Utils.logToFile(plugin, "1-" + new Long(System.currentTimeMillis() / 1000L).toString(), true);
-        
-        this.getServer().getScheduler()
-        .scheduleSyncRepeatingTask(plugin, new Runnable() {
+
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
                 Utils.logToFile(plugin, "2-" + new Long(System.currentTimeMillis() / 1000L).toString());
             }
         }, 20L, 20L);
-        
-        
+
+//        this.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+//            @Override
+//            public void run() {
+//                log.log(Level.INFO, String.format("[%s] Saving Worlds...", getDescription().getName()));
+//                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
+//            }
+//        }, Utils.TASK_FIVE_MINUTE, Utils.TASK_FIVE_MINUTE);
+
         log.log(Level.INFO, String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
@@ -281,7 +288,8 @@ public class Roc extends JavaPlugin {
      * Liest die Eigentlichen Sprachdateien ein.
      * 
      * @param type
-     *            muss gesetzt sein und repräsentiert entweder die Items oder Nachrichten
+     *            muss gesetzt sein und repräsentiert entweder die Items oder
+     *            Nachrichten
      * @return <tt>PropertyResourceBundle</tt>
      */
     private PropertyResourceBundle readProperties(final String type) {
@@ -361,7 +369,8 @@ public class Roc extends JavaPlugin {
     }
 
     /**
-     * Überprüft ob Vault vorhanden und ein passender Economyhandler verfügbar ist.
+     * Überprüft ob Vault vorhanden und ein passender Economyhandler verfügbar
+     * ist.
      * 
      * @return <tt>true</tt> wenn ein Vault Economyhandler gefunden wird.
      */
@@ -388,7 +397,8 @@ public class Roc extends JavaPlugin {
     }
 
     /**
-     * Überprüft ob Vault vorhanden und ein passender Permissionhandler verfügbar ist.
+     * Überprüft ob Vault vorhanden und ein passender Permissionhandler
+     * verfügbar ist.
      * 
      * @return <tt>true</tt> wenn ein Vault Permissionhandler gefunden wird.
      */

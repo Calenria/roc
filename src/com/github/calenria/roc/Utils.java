@@ -56,7 +56,11 @@ public final class Utils {
      * 1 Minute.
      */
     public static final long TASK_ONE_MINUTE = 1200L;
-
+    
+    /**
+     * 5 Minute.
+     */
+    public static final long TASK_FIVE_MINUTE = 6000L;
     /**
      * FileBuffer.
      */
